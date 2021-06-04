@@ -2,11 +2,16 @@ package com.uveys.rssapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
+import android.widget.SearchView;
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import java.util.ArrayList;
@@ -27,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList <News> news = new ArrayList<News>();
     ListView lvRss;
     News newToPush = new News();
-
+    NewsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -194,5 +199,37 @@ public class MainActivity extends AppCompatActivity {
 
             progressDialog.dismiss();
         }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+
+        getMenuInflater().inflate(R.menu.search_menu,menu);
+
+        MenuItem menuItem = menu.findItem(R.id.searchView);
+
+        SearchView searchView = (SearchView) menuItem.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                Log.d("TTT", "ttt"+newText);
+                //adapter.getFilter().filter(newText);
+
+
+
+                return true;
+            }
+        });
+
+
+        return true;
+
     }
 }
