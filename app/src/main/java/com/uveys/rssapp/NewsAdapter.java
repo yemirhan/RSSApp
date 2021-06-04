@@ -1,9 +1,12 @@
 package com.uveys.rssapp;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -63,22 +66,23 @@ public class NewsAdapter extends ArrayAdapter<News> implements Filterable {
             protected FilterResults performFiltering(CharSequence constraint) {
 
                 FilterResults filterResults = new FilterResults();
-                if(constraint == null || constraint.length() == 0){
-                    filterResults.count = itemsModelsl.size();
-                    filterResults.values = itemsModelsl;
-
-                }else{
+                if(constraint != null){
                     List<News> resultsModel = new ArrayList<>();
                     String searchStr = constraint.toString().toLowerCase();
-
+                    //Log.d("TAG", "performFiltering: "+constraint);
                     for(News itemsModel:itemsModelsl){
-                        if(itemsModel.getTitle().contains(searchStr)){
+                        if(itemsModel.getTitle().toLowerCase().contains(searchStr)){
                             resultsModel.add(itemsModel);
+                            //Log.d("TAGTT", "performFiltering: "+itemsModel.getTitle());
                             filterResults.count = resultsModel.size();
                             filterResults.values = resultsModel;
                         }
                     }
 
+
+                }else {
+                    filterResults.count = itemsModelsl.size();
+                    filterResults.values = itemsModelsl;
 
                 }
 
@@ -86,8 +90,10 @@ public class NewsAdapter extends ArrayAdapter<News> implements Filterable {
             }
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
+                Log.d("TAG", "publishResults: ");
+                itemsModelListFiltered.clear();
+                itemsModelListFiltered.addAll((List<News>) results.values);
 
-                itemsModelListFiltered = (List<News>) results.values;
                 notifyDataSetChanged();
 
             }

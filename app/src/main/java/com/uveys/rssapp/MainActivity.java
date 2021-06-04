@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        adapter = new NewsAdapter(getApplicationContext(), news);
         lvRss = (ListView) findViewById(R.id.lvRss);
 
         lvRss.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -219,8 +220,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
 
-                Log.d("TTT", "ttt"+newText);
-                //adapter.getFilter().filter(newText);
+                //Log.d("TTT", "ttt"+newText);
+                adapter.getFilter().filter(newText);
 
 
 
